@@ -45,7 +45,7 @@ public class HomeController {
 		return "about";
 	}
 	
-	@RequestMapping("/signup/")
+	@RequestMapping("/signup")
 	public String signup(Model m)
 	{
 		
