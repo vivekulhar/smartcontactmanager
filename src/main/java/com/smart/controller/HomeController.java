@@ -2,6 +2,7 @@ package com.smart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,9 @@ public class HomeController {
 //		userRepository.save(user);
 //		return "Working";
 //	}
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -88,6 +92,9 @@ public class HomeController {
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
 			user.setImageUrl("default.png");
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			
+			
 			
 			System.out.println("Agreement " + agreement);
 			System.out.println("USER " +user);
