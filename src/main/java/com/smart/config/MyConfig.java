@@ -77,7 +77,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 			http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN")
 	        .requestMatchers("/user/**").hasRole("USER")
 	        .requestMatchers("/**").permitAll()
-	        .and().formLogin().and().csrf().disable();
+	        .and().formLogin().loginPage("/signin").and().csrf().disable();
 	        return http.build();
 	    }
 		
