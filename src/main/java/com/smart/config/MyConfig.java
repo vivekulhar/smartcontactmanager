@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.ldap.EmbeddedLdapServerContextSourceFactoryBean;
 import org.springframework.security.config.ldap.LdapBindAuthenticationManagerFactory;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 //import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +19,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 
 
 	@Configuration
+	@EnableWebSecurity
 	public class MyConfig {
 		
 		@Bean
@@ -37,7 +38,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 		{
 			DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 			daoAuthenticationProvider.setUserDetailsService(this.getUserDetailService());
-			daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+			daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
 			
 			return daoAuthenticationProvider;
 			
@@ -74,7 +75,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 		@Bean
 	    public DefaultSecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			http.authorizeHttpRequests().requestMatchers("/admin/**").hasRole("ADMIN")
-	        .requestMatchers("/user/").hasRole("USER")
+	        .requestMatchers("/user/**").hasRole("USER")
 	        .requestMatchers("/**").permitAll()
 	        .and().formLogin().and().csrf().disable();
 	        return http.build();
