@@ -64,6 +64,7 @@ public class UserController {
 		String name = principal.getName();
 		User user = this.userRepository.getUserByUserName(name);
 		
+		contact.setUser(user);
 		user.getContacts().add(contact);
 		
 		this.userRepository.save(user);
