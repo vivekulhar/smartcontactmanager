@@ -32,6 +32,7 @@ import com.smart.entities.User;
 import com.smart.helper.Message;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("/user")
@@ -196,7 +197,9 @@ public class UserController {
 	
 	//delete contact handler
 	@GetMapping("/delete/{cid}")
-	public String deleteContact(@PathVariable("cid") Integer cId, Model model, HttpSession session)
+	@Transactional
+	public String deleteContact(@PathVariable("cid") Integer cId, Model model, 
+			HttpSession session, Principal principal)
 	{
 		
 //		Optional<Contact> contactOptional = this.contactRepository.findById(cId);
@@ -206,16 +209,20 @@ public class UserController {
 		//check...Assignment..
 		Contact contact = this.contactRepository.findById(cId).get();
 		
+		User user = this.userRepository.getUserByUserName(principal.getName());
+		
+		user.getContacts().remove(contact);
+		
 		System.out.println("Contact" + contact.getcId());
 		
-		contact.setUser(null);
+		this.userRepository.save(user);
 		
 		//remove
 		//img
 		//
 		//contact.getImage()
 		
-		this.contactRepository.delete(contact);
+//		this.contactRepository.delete(contact);
 		
 		session.setAttribute("message", new Message("Contact deleted successfully...","success"));
 		
