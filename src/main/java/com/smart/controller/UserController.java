@@ -193,4 +193,32 @@ public class UserController {
 		return "normal/contact_detail";
 	}
 	
+	//delete contact handler
+	@GetMapping("/delete/{cid}")
+	public String deleteContact(@PathVariable("cid") Integer cId, Model model, HttpSession session)
+	{
+		
+//		Optional<Contact> contactOptional = this.contactRepository.findById(cId);
+		
+//		Contact contact = contactOptional.get();
+		
+		//check...Assignment..
+		Contact contact = this.contactRepository.findById(cId).get();
+		
+		System.out.println("Contact" + contact.getcId());
+		
+		contact.setUser(null);
+		
+		//remove
+		//img
+		//
+		//contact.getImage()
+		
+		this.contactRepository.delete(contact);
+		
+		session.setAttribute("message", new Message("Contact deleted successfully...","success"));
+		
+		return "redirect:/user/show-contacts/0";
+	}
+	
 }
