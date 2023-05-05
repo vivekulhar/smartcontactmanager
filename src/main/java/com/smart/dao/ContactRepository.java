@@ -9,13 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.smart.entities.Contact;
+import com.smart.entities.User;
 
 public interface ContactRepository extends JpaRepository<Contact,Integer>{
 	//pagination...
 	//current page-page
-	//contact per page
+	//contact per page-5
 	@Query("from Contact as c where c.user.id =:userId ")
 	public Page<Contact> findContactsByUser(@Param("userId")int userId, Pageable pePageable);
+	
+	//search
+	public List<Contact> findByNameContainingAndUser(String name, User user);
 	
 	
 }
