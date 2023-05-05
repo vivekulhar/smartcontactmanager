@@ -303,4 +303,12 @@ public class UserController {
 		return "normal/profile";
 	}
 	
+	//Open settings handler
+	@GetMapping("/settings")
+	public String openSettings()
+	{
+		
+		return "normal/settings";
+	}
+	
 }
